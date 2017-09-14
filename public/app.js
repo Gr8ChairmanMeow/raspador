@@ -14,8 +14,10 @@ $(document).on("click", "p", function() {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
-  window.location.href = "/comments";
-/*  var thisId = $(this).attr("data-id");
+  var thisId = $(this).attr("data-id");
+  // Redirect to comments page
+
+  // window.location.href = "/comments"; //REDIRECT
 
   // Now make an ajax call for the Article
   $.ajax({
@@ -35,13 +37,17 @@ $(document).on("click", "p", function() {
       $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
 
       // If there's a note in the article
-      if (data.note) {
+      if (data.notes) {
+        console.log("Success!")/*
         // Place the title of the note in the title input
         $("#titleinput").val(data.note.title);
         // Place the body of the note in the body textarea
-        $("#bodyinput").val(data.note.body);
-      }
-    });*/
+        $("#bodyinput").val(data.note.body);*/
+      }/*
+      else{
+        console.log("Errorrr!")
+      }*/
+    });
 });
 
 // When you click the savenote button

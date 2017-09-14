@@ -104,7 +104,7 @@ app.get("/scrape", function(req, res) {
 // This will get the articles we scraped from the mongoDB
 app.get("/articles", function(req, res) {
     // TODO: Finish the route so it grabs all of the articles
-    Article.find({}).populate("note")
+    Article.find({}).populate("notes")
         // Now, execute that query
         .exec(function(error, doc) {
             // Send any errors to the browser
@@ -134,7 +134,7 @@ app.get("/articles/:id", function(req, res) {
     Article.findById(req.params.id)
         // ..and string a call to populate the entry with the books stored in the library's books array
         // This simple query is incredibly powerful. Remember this one!
-        .populate("note")
+        .populate("notes")
         // Now, execute that query
         .exec(function(error, doc) {
             // Send any errors to the browser
@@ -172,7 +172,7 @@ app.post("/articles/:id", function(req, res) {
         // Otherwise
         else {
             // Find our user and push the new note id into the User's notes array
-            Article.findOneAndUpdate({ _id: req.params.id }, { $set: { "note": doc._id } }, { new: true }, function(err, newdoc) {
+            Article.findOneAndUpdate({ _id: req.params.id }, { $push: { "notes": doc._id } }, { new: true }, function(err, newdoc) {
                 // Send any errors to the browser
                 if (err) {
                     res.send(err);
