@@ -1,18 +1,15 @@
 <div class="container">
     <div class="jumbotron">
-        <h1>Article Scraper</h1>
-        <button class="btn-lg btn-danger">Scrape some articles!</button>
-        <button class="btn-lg btn-success">View Saved articles!</button>
-    </div><!-- 
-    <p>This is some text.</p>
-    <p>This is another text.</p> -->
+        <h1>Saved Articles</h1>
+        <button class="btn-lg btn-danger">Home</button>
+    </div>
 </div>
 <div id="wrapper">
     <div id="articles">
         <h2>Articles <!-- <img src="assets/images/burger.png" alt="eat" width="40"/> --></h2>
         <hr>
         <ul>
-            {{#each articles}}
+            {{#each articles}}  {{#if this.saved}}
             <li>
                 <p data-id={{this._id}} class="articleNote"> {{this.title}}
                 <br />
@@ -22,7 +19,7 @@
                 <br />
                 <a href={{this.link}} target="_blank">{{this.link}}</a></p>
             </li>
-            {{/each}}
+            {{/if}} {{/each}}
         </ul>
     </div>
     <div id="notes"></div>

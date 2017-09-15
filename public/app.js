@@ -7,7 +7,7 @@
   }
 });*/
 
-$(document).on("click", ".updateNote", function() {
+$(document).on("click", ".btn-edit", function() {
   console.log($(this).attr("data-id"))
   // Empty the notes from the note section
   $("#notes").empty();
@@ -148,10 +148,61 @@ $(document).on("click", "#updatenote", function() {
 });
 
 $(document).on("click", ".btn-comments", function() {
-  //console.log("BUTTON!",$(this).attr("data-id"))  
+  //console.log("BUTTON!",$(this).attr("data-id")) 
+  //console.log($(this).parent().text().split(" Save",1)[0].trim());
   window.location.href = "/comments/" + $(this).attr("data-id");
 });
 
+/*$(document).on("click", ".btn-danger", function() {
+  //console.log("BUTTON!",$(this).attr("data-id")) 
+  window.location.href = "/scrape";
+});*/
+
+/*$(document).on("click", ".btn-save", function() {
+  console.log("SAVE BUTTON!",$(this).attr("data-id"));
+});*/
+
+$(document).on("click", ".btn-delete", function() {
+  $.ajax({
+    method: "GET",
+    url: "/delete/notes/" + $(this).attr("data-id")
+  })
+    // With that done, add the note information to the page
+    .done(function(data) {
+
+      console.log(data);
+      window.location.reload();
+
+    });
+});
+
+$(document).on("click", ".btn-danger", function() {
+  $.ajax({
+    method: "GET",
+    url: "/scrape"
+  })
+    // With that done, add the note information to the page
+    .done(function(data) {
+
+      console.log(data);
+      window.location.href = "/"
+
+    });
+});
+
+$(document).on("click", ".btn-success", function() {
+  window.location.href = "/saved";
+});
+
 $(document).on("click", ".btn-save", function() {
-  console.log("BUTTON!",$(this).attr("data-id"));
+  $.ajax({
+    method: "GET",
+    url: "/save/" + $(this).attr("data-id")
+  })
+    // With that done, add the note information to the page
+    .done(function(data) {
+
+      console.log(data);
+
+    });
 });

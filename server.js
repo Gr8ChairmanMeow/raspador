@@ -42,7 +42,9 @@ app.set("view engine", "handlebars");
 //end handlebars
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://heroku_kmxpkwng:oemn7avn4doc1ka393q4clevtj@ds135234.mlab.com:35234/heroku_kmxpkwng");
+//mongodb://localhost/raspador
+//mongodb://heroku_kmxpkwng:oemn7avn4doc1ka393q4clevtj@ds135234.mlab.com:35234/heroku_kmxpkwng
+mongoose.connect("mongodb://localhost/raspador");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -77,6 +79,25 @@ app.get("/", function(req, res) {
         });
 });
 
+app.get("/saved", function(req, res) {
+    Article.find({}).populate("notes")
+        // Now, execute that query
+        .exec(function(error, doc) {
+            // Send any errors to the browser
+            if (error) {
+                res.send(error);
+            }
+            // Or, send our results to the browser, which will now include the books stored in the library
+            else {
+                var hbsObject = {
+                    articles: doc
+                };
+                console.log(hbsObject);
+                res.render("saved", hbsObject);
+            }
+        });
+});
+
 
 // Redirect to comments page
 app.get("/comments/:id", function(req, res) {
@@ -96,6 +117,7 @@ app.get("/comments/:id", function(req, res) {
             else {
                 // console.log("////////////////",doc.notes,"//////////////////")
                 var hbsObject = {
+                    article: doc.title,
                     notes: doc.notes
                 };
                 // console.log("++++++++++++",hbsObject,"++++++++++++++++");
@@ -105,10 +127,10 @@ app.get("/comments/:id", function(req, res) {
 });
 // A GET request to scrape the echojs website
 app.get("/scrape", function(req, res) {
-    //clear collection if exists
-    Article.remove({}, function(err) {
-        console.log('collection removed')
-    });
+    /* //clear collection if exists
+     Article.remove({}, function(err) {
+         console.log('collection removed')
+     });*/
     // First, we grab the body of the html with request
     request("http://www.pewsocialtrends.org/", function(error, response, html) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -131,22 +153,21 @@ app.get("/scrape", function(req, res) {
             // This effectively passes the result object to the entry (and the title and link)
             var entry = new Article(result);
 
-            // Now, save that entry to the db
-            entry.save(function(err, doc) {
-                // Log any errors
-                if (err) {
-                    console.log(err);
-                }
-                // Or log the doc
-                else {
-                    console.log(doc);
+            Article.find({ title: result.title }, function(err, data) {
+                if (data.length === 0) {
+                    entry.save(function(err, data) {
+                        if (err) throw err;
+                    });
                 }
             });
 
         });
+        res.send("Scrape Complete");
     });
     // Tell the browser that we finished scraping the text
-    res.send("Scrape Complete");
+    //res.send("Scrape Complete");
+    //res.redirect("/");
+
 });
 
 // This will get the articles we scraped from the mongoDB
@@ -194,6 +215,24 @@ app.get("/articles/:id", function(req, res) {
                 res.send(doc);
             }
         });
+
+});
+
+//save
+app.get("/save/:id", function(req, res) {
+
+    // Find our user and push the new note id into the User's notes array
+    Article.findOneAndUpdate({ _id: req.params.id }, { $set: { "saved": true } }, { new: true }, function(err, newdoc) {
+        // Send any errors to the browser
+        if (err) {
+            res.send(err);
+        }
+        // Or send the newdoc to the browser
+        else {
+            console.log(newdoc)
+            res.send(newdoc);
+        }
+    });
 
 });
 
@@ -278,6 +317,32 @@ app.post("/notes/:id", function(req, res) {
     });
 
 
+});
+
+app.get("/delete/notes/:id", function(req, res) {
+    Note.findByIdAndRemove(req.params.id, function(error, note) {
+        if (error) {
+            res.send(error);
+        } else {
+            res.redirect("/");
+        };
+    });
+    /*  Article.findById(req.params.id).populate("notes")
+          // Now, execute that query
+          .exec(function(error, doc) {
+              // Send any errors to the browser
+              if (error) {
+                  res.send(error);
+              }
+              // Or, send our results to the browser, which will now include the books stored in the library
+              else {
+                  var hbsObject = {
+                      articles: doc
+                  };
+                  console.log(hbsObject);
+                  res.render("index", hbsObject);
+              }
+          });*/
 });
 
 

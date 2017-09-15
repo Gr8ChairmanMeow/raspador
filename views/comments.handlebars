@@ -1,18 +1,24 @@
 <div class="container">
     <div class="jumbotron">
-        <h1>Notes</h1>
-        <p>Some notes!</p>
+        <h1>
+            {{article}}
+        </h1>
+        <button class="btn-lg btn-danger">Home</button>
     </div>
 </div>
 <div id="wrapper">
     <div id="articles">
-        <h2>Notes <!-- <img src="assets/images/burger.png" alt="eat" width="40"/> --></h2>
+        <h2>Comments <!-- <img src="assets/images/burger.png" alt="eat" width="40"/> --></h2>
         <hr>
         <ul>
             {{#each notes}}
             <li>
-                <p data-id={{this._id}} class="updateNote"> {{this.title}}
-                    <br />&ldquo;{{this.body}}&rdquo;</p>
+                <p data-id={{this._id}} class="updateNote">
+                    <p> {{this.title}} </p>
+                    <button class="btn-sm btn-edit" data-id={{this._id}}>Edit</button>
+                    <button class="btn-sm btn-delete" data-id={{this._id}}>Delete</button>
+                    <br /> &ldquo;{{this.body}}&rdquo;
+                </p>
             </li>
             {{/each}}
         </ul>
