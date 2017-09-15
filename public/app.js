@@ -153,10 +153,19 @@ $(document).on("click", ".btn-comments", function() {
   window.location.href = "/comments/" + $(this).attr("data-id");
 });
 
-/*$(document).on("click", ".btn-danger", function() {
-  //console.log("BUTTON!",$(this).attr("data-id")) 
-  window.location.href = "/scrape";
-});*/
+$(document).on("click", ".btn-info", function() {
+  $.ajax({
+    method: "GET",
+    url: "/clearAll"
+  })
+    // With that done, add the note information to the page
+    .done(function(data) {
+
+      console.log(data);
+      window.location.reload();
+
+    });
+});
 
 /*$(document).on("click", ".btn-save", function() {
   console.log("SAVE BUTTON!",$(this).attr("data-id"));

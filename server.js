@@ -188,6 +188,15 @@ app.get("/articles", function(req, res) {
 
 });
 
+// This will get the articles we scraped from the mongoDB
+app.get("/clearAll", function(req, res) {
+
+    Article.remove({}, function(err) {
+        if (err) throw err;
+    });
+    res.send("Removed!");
+});
+
 // This will grab an article by it's ObjectId
 app.get("/articles/:id", function(req, res) {
     // TODO
