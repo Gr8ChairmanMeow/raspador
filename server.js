@@ -245,6 +245,25 @@ app.get("/save/:id", function(req, res) {
 
 });
 
+//unsave
+//save
+app.get("/unsave/:id", function(req, res) {
+
+    // Find our user and push the new note id into the User's notes array
+    Article.findOneAndUpdate({ _id: req.params.id }, { $set: { "saved": false } }, { new: true }, function(err, newdoc) {
+        // Send any errors to the browser
+        if (err) {
+            res.send(err);
+        }
+        // Or send the newdoc to the browser
+        else {
+            console.log(newdoc)
+            res.send(newdoc);
+        }
+    });
+
+});
+
 // Create a new note or replace an existing note
 app.post("/articles/:id", function(req, res) {
 

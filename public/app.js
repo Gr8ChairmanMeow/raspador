@@ -194,7 +194,7 @@ $(document).on("click", ".btn-danger", function() {
     .done(function(data) {
 
       console.log(data);
-      window.location.href = "/"
+      window.location.href = "/";
 
     });
 });
@@ -212,6 +212,21 @@ $(document).on("click", ".btn-save", function() {
     .done(function(data) {
 
       console.log(data);
+      window.location.reload();
+
+    });
+});
+
+$(document).on("click", ".btn-unsave", function() {
+  $.ajax({
+    method: "GET",
+    url: "/unsave/" + $(this).attr("data-id")
+  })
+    // With that done, add the note information to the page
+    .done(function(data) {
+
+      console.log(data);
+      window.location.reload();
 
     });
 });

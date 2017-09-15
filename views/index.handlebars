@@ -16,7 +16,7 @@
             <li>
                 <p data-id={{this._id}} class="articleNote"> {{this.title}}
                 <br />
-                <button class="btn btn-save" data-id={{this._id}}>Save</button>
+                {{> save-unsave}}
                 <button class="btn btn-add" data-id={{this._id}}>Add Comments</button>
                 <button class="btn btn-comments" data-id={{this._id}}>View Comments</button>
                 <br />

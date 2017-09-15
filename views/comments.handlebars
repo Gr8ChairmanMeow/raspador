@@ -10,18 +10,19 @@
     <div id="articles">
         <h2>Comments <!-- <img src="assets/images/burger.png" alt="eat" width="40"/> --></h2>
         <hr>
-        <ul>
+        <ol>
             {{#each notes}}
             <li>
                 <p data-id={{this._id}} class="updateNote">
-                    <p> {{this.title}} </p>
-                    <button class="btn-sm btn-edit" data-id={{this._id}}>Edit</button>
-                    <button class="btn-sm btn-delete" data-id={{this._id}}>Delete</button>
+                    <p><u>{{this.title}}</u>
+                        ( <button class="btn-sm btn-edit" data-id={{this._id}}>Edit</button>
+                        <button class="btn-sm btn-delete" data-id={{this._id}}>Delete</button> )
+                    </p>
                     <br /> &ldquo;{{this.body}}&rdquo;
                 </p>
             </li>
             {{/each}}
-        </ul>
+        </ol>
     </div>
     <div id="notes"></div>
 </div>
