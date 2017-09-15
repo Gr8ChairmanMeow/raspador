@@ -32,7 +32,14 @@ app.use(bodyParser.urlencoded({
 }));
 
 // Make public a static dir
-app.use(express.static("public"));
+app.use(express.static("./public"));
+
+//use handlebars
+var exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+//end handlebars
 
 // Database configuration with mongoose
 mongoose.connect("mongodb://localhost/raspador");
@@ -51,9 +58,50 @@ db.once("open", function() {
 
 // Routes
 // ======
+app.get("/", function(req, res) {
+    Article.find({}).populate("notes")
+        // Now, execute that query
+        .exec(function(error, doc) {
+            // Send any errors to the browser
+            if (error) {
+                res.send(error);
+            }
+            // Or, send our results to the browser, which will now include the books stored in the library
+            else {
+                var hbsObject = {
+                    articles: doc
+                };
+                console.log(hbsObject);
+                res.render("index", hbsObject);
+            }
+        });
+});
+
+
 // Redirect to comments page
-app.get("/comments", function(req,res){
-    res.sendFile(path.join(__dirname, "public/comments.html"));
+app.get("/comments/:id", function(req, res) {
+    if (req.params.id === "app.js") { res.send() }
+    Article.findById(req.params.id)
+        // ..and string a call to populate the entry with the books stored in the library's books array
+        // This simple query is incredibly powerful. Remember this one!
+        .populate("notes")
+        // Now, execute that query
+        .exec(function(error, doc) {
+            // Send any errors to the browser
+            if (error) {
+                res.send(error);
+                console.log(error);
+            }
+            // Or, send our results to the browser, which will now include the books stored in the library
+            else {
+                // console.log("////////////////",doc.notes,"//////////////////")
+                var hbsObject = {
+                    notes: doc.notes
+                };
+                // console.log("++++++++++++",hbsObject,"++++++++++++++++");
+                res.render("comments", hbsObject);
+            }
+        });
 });
 // A GET request to scrape the echojs website
 app.get("/scrape", function(req, res) {
@@ -121,7 +169,6 @@ app.get("/articles", function(req, res) {
 
 // This will grab an article by it's ObjectId
 app.get("/articles/:id", function(req, res) {
-
     // TODO
     // ====
 
@@ -183,6 +230,50 @@ app.post("/articles/:id", function(req, res) {
                     res.send(newdoc);
                 }
             });
+        }
+    });
+
+
+});
+
+// This will grab an article by it's ObjectId
+app.get("/notes/:id", function(req, res) {
+    // TODO
+    // ====
+
+    // Finish the route so it finds one article using the req.params.id,
+
+    // and run the populate method with "note",
+
+    // then responds with the article with the note included
+
+    Note.findById(req.params.id, function(error, doc) {
+        // Send any errors to the browser
+        if (error) {
+            res.send(error);
+            console.log(error);
+        }
+        // Or, send our results to the browser, which will now include the books stored in the library
+        else {
+            res.send(doc);
+        }
+    });
+
+});
+
+// Create a new note or replace an existing note
+app.post("/notes/:id", function(req, res) {
+
+    var update = req.body;
+    Note.findOneAndUpdate({ _id: req.params.id }, { $set: { "title": update.title, "body": update.body } }, { new: true }, function(err, newdoc) {
+        // Send any errors to the browser
+        if (err) {
+            res.send(err);
+        }
+        // Or send the newdoc to the browser
+        else {
+            console.log(newdoc)
+            res.send(newdoc);
         }
     });
 

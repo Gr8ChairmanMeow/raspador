@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="jumbotron">
+        <h1>Notes</h1>
+        <p>Some notes!</p>
+    </div>
+</div>
+<div id="wrapper">
+    <div id="articles">
+        <h2>Notes <!-- <img src="assets/images/burger.png" alt="eat" width="40"/> --></h2>
+        <hr>
+        <ul>
+            {{#each notes}}
+            <li>
+                <p data-id={{this._id}} class="updateNote"> {{this.title}}
+                    <br />&ldquo;{{this.body}}&rdquo;</p>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    <div id="notes"></div>
+</div>

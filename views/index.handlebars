@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="jumbotron">
+        <h1>Article Scraper</h1>
+        <p>Scrape some articles!</p>
+    </div><!-- 
+    <p>This is some text.</p>
+    <p>This is another text.</p> -->
+</div>
+<div id="wrapper">
+    <div id="articles">
+        <h2>Articles <!-- <img src="assets/images/burger.png" alt="eat" width="40"/> --></h2>
+        <hr>
+        <ul>
+            {{#each articles}}
+            <li>
+                <p data-id={{this._id}} class="articleNote"> {{this.title}}
+                <br />
+                <button class="btn btn-save" data-id={{this._id}}>Save</button>
+                <button class="btn btn-add" data-id={{this._id}}>Add Comments</button>
+                <button class="btn btn-comments" data-id={{this._id}}>View Comments</button>
+                <br />
+                <a href={{this.link}} target="_blank">{{this.link}}</a></p>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    <div id="notes"></div>
+</div>
