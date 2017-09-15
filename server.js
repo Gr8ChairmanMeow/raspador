@@ -44,7 +44,7 @@ app.set("view engine", "handlebars");
 // Database configuration with mongoose
 //mongodb://localhost/raspador
 //mongodb://heroku_kmxpkwng:oemn7avn4doc1ka393q4clevtj@ds135234.mlab.com:35234/heroku_kmxpkwng
-mongoose.connect("mongodb://localhost/raspador");
+mongoose.connect("mongodb://heroku_kmxpkwng:oemn7avn4doc1ka393q4clevtj@ds135234.mlab.com:35234/heroku_kmxpkwng");
 var db = mongoose.connection;
 
 // Show any mongoose errors
