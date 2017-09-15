@@ -42,7 +42,7 @@ app.set("view engine", "handlebars");
 //end handlebars
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/raspador");
+mongoose.connect("mongodb://heroku_kmxpkwng:oemn7avn4doc1ka393q4clevtj@ds135234.mlab.com:35234/heroku_kmxpkwng");
 var db = mongoose.connection;
 
 // Show any mongoose errors
@@ -282,6 +282,6 @@ app.post("/notes/:id", function(req, res) {
 
 
 // Listen on port 3000
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
     console.log("App running on port 3000!");
 });
