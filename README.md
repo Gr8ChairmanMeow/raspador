@@ -18,7 +18,7 @@ See what's going on in the world today!
    * Delete comments
 1. Scrape new articles
 
-![AMAZING](/public/images/NYT.png)
+![AMAZING](/public/NYT.png)
 >Breaking News, World News & Multimedia
 
 [GitHub Repo](https://github.com/JavierAvitia/raspador)
